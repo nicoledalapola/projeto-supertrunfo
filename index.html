@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Trunfo Star Wars</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-super-trunfo.png" class="page-logo" alt="">
+        <h1 class="page-title">Super Trunfo Star Wars</h1>
+
+        <button onclick="sortearCarta()" id="btnSortear">Sortear carta</button>
+
+        <form id="form">
+            <h2>Escolha o seu atributo</h2>
+            <div class="opcoes" id="opcoes"></div>
+            <button type="button" id="btnJogar" onclick="jogar()" disabled="false">Jogar</button>
+            <div id="resultado"></div>
+        </form>
+    </div>
+    <script>
+        var carta1 = {
+            nome: "Darth Vader",
+            atributos: {
+                ataque: 10,
+                defesa: 9,
+                inteligencia: 6
+            }
+        };
+
+        var carta2 = {
+            nome: "Luke Skywalker",
+            atributos: {
+                ataque: 9,
+                defesa: 8,
+                inteligencia: 10
+            }
+        };
+
+        var carta3 = {
+            nome: "Yoda",
+            atributos: {
+                ataque: 10,
+                defesa: 10,
+                inteligencia: 10
+            }
+        };
+
+        var carta4 = {
+            nome: "Princesa Leia",
+            atributos: {
+                ataque: 6,
+                defesa: 8,
+                inteligencia: 7
+            }
+        };
+
+        var carta5 = {
+            nome: "Han Solo",
+            atributos: {
+                ataque: 9,
+                defesa: 10,
+                inteligencia: 6
+            }
+        };
+
+        var carta6 = {
+            nome: "Obi-Wan Kenobi",
+            atributos: {
+                ataque: 10,
+                defesa: 10,
+                inteligencia: 10
+            }
+        };
+
+        var carta7 = {
+            nome: "Palpatine",
+            atributos: {
+                ataque: 8,
+                defesa: 10,
+                inteligencia: 7
+            }
+        };
+
+        var cartas = [carta1, carta2, carta3, carta4, carta5, carta6, carta7];
+        var cartaMaquina;
+        var cartaJogador;
+
+        function sortearCarta() {
+        var numeroCartaMaquina = parseInt(Math.random() * 7);
+        cartaMaquina = cartas[numeroCartaMaquina];
+
+        var numeroCartaJogador = parseInt(Math.random() * 7);
+        while (numeroCartaMaquina == numeroCartaJogador) {
+            numeroCartaJogador = parseInt(Math.random() * 7);
+        }
+        cartaJogador = cartas[numeroCartaJogador];
+        console.log(cartaJogador);
+
+        document.getElementById("btnSortear").disabled = true;
+        document.getElementById("btnJogar").disabled = false;
+
+        exibirOpcoes();
+        }
+
+        function exibirOpcoes() {
+        var opcoes = document.getElementById("opcoes");
+        var opcoesTexto = "";
+
+        for (var atributo in cartaJogador.atributos) {
+            opcoesTexto +=
+            "<input type='radio' name='atributo' value='" +
+            atributo +
+            "'>" +
+            atributo;
+        }
+        opcoes.innerHTML = opcoesTexto;
+        }
+
+        function obtemAtributoSelecionado() {
+        var radioAtributos = document.getElementsByName("atributo");
+
+        for (var i = 0; i < radioAtributos.length; i++) {
+            if (radioAtributos[i].checked == true) {
+            return radioAtributos[i].value;
+            }
+        }
+        }
+
+        function jogar() {
+            var atributoSelecionado = obtemAtributoSelecionado();
+            var elementoResultado = document.getElementById("resultado");
+            var valorCartaJogador = cartaJogador.atributos[atributoSelecionado];
+            var valorCartaMaquina = cartaMaquina.atributos[atributoSelecionado];
+
+            if (valorCartaJogador > valorCartaMaquina) {
+            elementoResultado.innerHTML = "Você venceu";
+        } else if (valorCartaMaquina > valorCartaJogador) {
+            elementoResultado.innerHTML = "Você perdeu, a carta da máquina é maior";
+        } else {
+            elementoResultado.innerHTML = "Empatou";
+        }
+        console.log(cartaMaquina);
+        }
+
+    </script>
+</body>
+</html>
